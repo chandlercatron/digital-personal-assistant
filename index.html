@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build Your Digital Personal Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #0d1117;
+      --surface:      #161b22;
+      --surface-2:    #21262d;
+      --border:       #30363d;
+      --accent:       #7c3aed;
+      --accent-light: #a78bfa;
+      --accent-glow:  rgba(124, 58, 237, 0.15);
+      --text:         #e6edf3;
+      --text-muted:   #7d8590;
+      --text-dim:     #4d5566;
+      --success:      #3fb950;
+      --mac:          #007aff;
+      --win:          #0078d4;
+      --font:         'Inter', system-ui, sans-serif;
+      --mono:         'JetBrains Mono', monospace;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    nav .logo {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--accent-light);
+      letter-spacing: 0.03em;
+    }
+    nav .sep { color: var(--text-dim); }
+    nav .page { color: var(--text-muted); font-size: 0.9rem; }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: var(--accent-glow);
+      border: 1px solid var(--accent);
+      color: var(--accent-light);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent-light), #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin: 0 auto 2.5rem;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 2rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-mac {
+      background: var(--mac);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(0, 122, 255, 0.3);
+    }
+    .btn-mac:hover { box-shadow: 0 6px 28px rgba(0, 122, 255, 0.45); }
+    .btn-win {
+      background: var(--win);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(0, 120, 212, 0.3);
+    }
+    .btn-win:hover { box-shadow: 0 6px 28px rgba(0, 120, 212, 0.45); }
+    .btn-icon { font-size: 1.2rem; }
+
+    /* ── WHAT YOU'LL BUILD ── */
+    .section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 0.75rem;
+    }
+    .section h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+    .section .subtitle {
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      max-width: 580px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .card:hover { border-color: var(--accent); }
+    .card-icon {
+      font-size: 1.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .card p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ── CONCEPT DIAGRAM ── */
+    .diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+    .diagram .org {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+    .org-user {
+      background: var(--surface-2);
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 0.6rem 1.75rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--accent-light);
+    }
+    .org-line {
+      width: 2px;
+      height: 28px;
+      background: var(--border);
+    }
+    .org-ceo {
+      background: linear-gradient(135deg, var(--accent-glow), transparent);
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      padding: 0.6rem 1.75rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      position: relative;
+    }
+    .org-ceo::after {
+      content: 'Your AI interface';
+      position: absolute;
+      bottom: -1.4rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .org-spread {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .org-node {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .diagram .diagram-caption {
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    /* ── HOW LONG ── */
+    .time-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .time-card {
+      flex: 1;
+      min-width: 200px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.25rem;
+    }
+    .time-card .label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+    .time-card .value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--success);
+    }
+    .time-card .desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ── OS PICK ── */
+    .os-section {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+      text-align: center;
+    }
+    .os-section h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+    .os-section p {
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="logo">Digital Personal Assistant</span>
+    <span class="sep">/</span>
+    <span class="page">Setup Guide</span>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="badge">Setup Guide</div>
+    <h1>Build Your<br /><span>Digital Personal Assistant</span></h1>
+    <p>A personal AI organization that knows you, your life, and your work — and gets smarter every time you use it.</p>
+    <div class="hero-cta">
+      <a href="mac.html" class="btn btn-mac">macOS Guide</a>
+      <a href="windows.html" class="btn btn-win">Windows Guide</a>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- WHAT YOU'LL BUILD -->
+  <section class="section">
+    <div class="section-label">What You'll Build</div>
+    <h2>Not just a chatbot. An organization.</h2>
+    <p class="subtitle">This system is structured like a company. You're the owner. Your AI is the leadership team.</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <h3>A Lead Persona</h3>
+        <p>Your primary AI interface — named, with a defined personality, voice, and role. The single point of contact for everything.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏢</div>
+        <h3>A Team Structure</h3>
+        <p>Department heads and specialists for each area of your life: personal, professional, research, knowledge, creative, and more.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📂</div>
+        <h3>A Living Knowledge Base</h3>
+        <p>Organized folders, context files, journals, and a database that preserves everything your AI learns about you over time.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔁</div>
+        <h3>Memory That Persists</h3>
+        <p>An auto-memory system that carries important context from conversation to conversation — so you never have to repeat yourself.</p>
+      </div>
+    </div>
+
+    <!-- CONCEPT DIAGRAM -->
+    <div class="diagram" style="margin-top: 2.5rem;">
+      <div class="org">
+        <div class="org-user">You</div>
+        <div class="org-line"></div>
+        <div class="org-ceo">[Your Lead Persona]</div>
+        <div class="org-spread">
+          <div class="org-node">Personal Director</div>
+          <div class="org-node">Professional Director</div>
+          <div class="org-node">Knowledge Officer</div>
+          <div class="org-node">Research Chief</div>
+          <div class="org-node">Tech Lead</div>
+          <div class="org-node">Creative Director</div>
+        </div>
+      </div>
+      <p class="diagram-caption">Your team structure. Every persona is an AI specialist you can talk to directly.</p>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- HOW LONG -->
+  <section class="section">
+    <div class="section-label">Time Investment</div>
+    <h2>How long does this take?</h2>
+    <p class="subtitle" style="margin-bottom: 1.5rem;">The core system is up in under an hour. The rest grows with you.</p>
+    <div class="time-row">
+      <div class="time-card">
+        <div class="label">Starter System</div>
+        <div class="value">~30 min</div>
+        <div class="desc">Lead persona, 2–3 team members, basic folder structure, first conversation</div>
+      </div>
+      <div class="time-card">
+        <div class="label">Full Setup</div>
+        <div class="value">2–3 hrs</div>
+        <div class="desc">Full team, org chart, SQLite database, context files, memory system</div>
+      </div>
+      <div class="time-card">
+        <div class="label">Ongoing</div>
+        <div class="value">As you go</div>
+        <div class="desc">Add personas, file notes, write journal entries — the system deepens naturally</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- OS PICK -->
+  <section class="os-section">
+    <h2>Choose your operating system to get started</h2>
+    <p>Both guides cover the same system. The only difference is installation commands.</p>
+    <div class="hero-cta">
+      <a href="mac.html" class="btn btn-mac">macOS Guide</a>
+      <a href="windows.html" class="btn btn-win">Windows Guide</a>
+    </div>
+  </section>
+
+  <footer>
+    Built by Chandler Catron &mdash; AI Mastermind 2026
+  </footer>
+
+</body>
+</html>

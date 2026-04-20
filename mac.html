@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>macOS Setup — Your AI Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #0d1117;
+      --surface:      #161b22;
+      --surface-2:    #21262d;
+      --border:       #30363d;
+      --accent:       #7c3aed;
+      --accent-light: #a78bfa;
+      --accent-glow:  rgba(124, 58, 237, 0.12);
+      --mac:          #007aff;
+      --text:         #e6edf3;
+      --text-muted:   #7d8590;
+      --text-dim:     #4d5566;
+      --success:      #3fb950;
+      --warn-bg:      rgba(210, 153, 34, 0.1);
+      --warn-border:  #d29922;
+      --tip-bg:       rgba(124, 58, 237, 0.1);
+      --font:         'Inter', system-ui, sans-serif;
+      --mono:         'JetBrains Mono', monospace;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── STICKY HEADER ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13, 17, 23, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0.9rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .back-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--text); }
+    .header-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .os-badge {
+      margin-left: auto;
+      background: var(--mac);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── LAYOUT ── */
+    .page-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    /* ── INTRO ── */
+    .intro { margin-bottom: 3rem; }
+    .intro h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+    .intro h1 span {
+      background: linear-gradient(135deg, var(--accent-light), #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .intro p { color: var(--text-muted); max-width: 580px; }
+    .prereq {
+      margin-top: 1.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      font-size: 0.875rem;
+    }
+    .prereq strong { color: var(--text); }
+    .prereq ul { margin-top: 0.5rem; padding-left: 1.2rem; color: var(--text-muted); }
+    .prereq li { margin-bottom: 0.2rem; }
+
+    /* ── STEP LIST ── */
+    .steps { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    details.step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    details.step[open] { border-color: var(--accent); }
+
+    details.step summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 1.1rem 1.4rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      user-select: none;
+    }
+    details.step summary::-webkit-details-marker { display: none; }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 2px;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    details.step[open] .step-num {
+      background: var(--accent-glow);
+      border-color: var(--accent);
+      color: var(--accent-light);
+    }
+
+    .step-meta { flex: 1; }
+    .step-title {
+      font-weight: 600;
+      font-size: 1rem;
+      line-height: 1.3;
+    }
+    .step-subtitle {
+      font-size: 0.825rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .step-toggle {
+      flex-shrink: 0;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      margin-top: 4px;
+      transition: transform 0.2s;
+    }
+    details.step[open] .step-toggle { transform: rotate(180deg); }
+
+    /* ── STEP BODY ── */
+    .step-body {
+      padding: 0 1.4rem 1.4rem 4rem;
+      border-top: 1px solid var(--border);
+    }
+    .step-body > * + * { margin-top: 1rem; }
+    .step-body p { color: var(--text-muted); font-size: 0.9rem; }
+    .step-body h4 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-top: 1.25rem;
+      margin-bottom: 0.4rem;
+    }
+
+    /* Code block */
+    .code-block {
+      position: relative;
+      background: #0a0e14;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .code-block pre {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      line-height: 1.6;
+      padding: 1rem 3.5rem 1rem 1rem;
+      overflow-x: auto;
+      color: #cdd6f4;
+      white-space: pre;
+    }
+    .code-block .copy-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      padding: 0.25rem 0.6rem;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: background 0.15s, color 0.15s;
+    }
+    .code-block .copy-btn:hover { background: var(--border); color: var(--text); }
+    .code-block .copy-btn.copied { color: var(--success); border-color: var(--success); }
+
+    /* Comments in code */
+    .cm { color: #6272a4; }
+    .kw { color: #bd93f9; }
+    .st { color: #f1fa8c; }
+    .fn { color: #50fa7b; }
+    .vl { color: #ffb86c; }
+
+    /* Callouts */
+    .callout {
+      border-radius: 8px;
+      padding: 0.9rem 1.1rem;
+      font-size: 0.875rem;
+    }
+    .callout-tip {
+      background: var(--tip-bg);
+      border-left: 3px solid var(--accent);
+      color: var(--text-muted);
+    }
+    .callout-tip strong { color: var(--accent-light); }
+    .callout-warn {
+      background: var(--warn-bg);
+      border-left: 3px solid var(--warn-border);
+      color: var(--text-muted);
+    }
+    .callout-warn strong { color: var(--warn-border); }
+
+    /* Inline code */
+    code {
+      font-family: var(--mono);
+      font-size: 0.82em;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: 0.1em 0.4em;
+      border-radius: 4px;
+      color: #cdd6f4;
+    }
+
+    /* Optional badge */
+    .optional-badge {
+      display: inline-block;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.1rem 0.5rem;
+      border-radius: 4px;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+
+    /* Folder tree */
+    .folder-tree {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      background: #0a0e14;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      line-height: 1.7;
+    }
+    .folder-tree .dir { color: var(--accent-light); }
+    .folder-tree .comment { color: #6272a4; }
+
+    /* Field table */
+    .field-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .field-table th {
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      background: var(--surface-2);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--border);
+    }
+    .field-table td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .field-table td:first-child {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--accent-light);
+      white-space: nowrap;
+    }
+
+    /* Section dividers inside steps */
+    .step-section-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-top: 1.5rem !important;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Done bar */
+    .done-bar {
+      background: linear-gradient(135deg, rgba(63, 185, 80, 0.1), transparent);
+      border: 1px solid var(--success);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      margin-top: 2.5rem;
+    }
+    .done-bar .done-icon { font-size: 2rem; }
+    .done-bar h3 { font-size: 1.25rem; font-weight: 700; margin: 0.5rem 0 0.4rem; color: var(--success); }
+    .done-bar p { color: var(--text-muted); font-size: 0.9rem; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="back-link">← Back</a>
+    <span class="header-title">Digital Personal Assistant Setup</span>
+    <span class="os-badge"> macOS</span>
+  </header>
+
+  <div class="page-wrap">
+
+    <div class="intro">
+      <h1>macOS Setup Guide<br /><span>Digital Personal Assistant</span></h1>
+      <p>Follow these steps to get Claude Code running on your Mac. Once you're in, a guided onboarding conversation handles everything else — naming your assistant, setting up your team, and building your knowledge base. No manual file editing required.</p>
+      <div class="prereq">
+        <strong>Before you start, you'll need:</strong>
+        <ul>
+          <li>A Mac running macOS 12 Monterey or later</li>
+          <li>An Anthropic account — free at <strong>claude.ai</strong> (Pro plan required for Claude Code)</li>
+          <li>About 15–20 minutes total</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="steps">
+
+      <!-- STEP 1 -->
+      <details class="step">
+        <summary>
+          <div class="step-num">1</div>
+          <div class="step-meta">
+            <div class="step-title">Get a Claude Pro account</div>
+            <div class="step-subtitle">Sign up at claude.ai — required to use Claude Code CLI</div>
+          </div>
+          <div class="step-toggle">▼</div>
+        </summary>
+        <div class="step-body">
+          <p>Claude Code is the command-line tool that powers this entire system. It requires an active Claude Pro subscription ($20/mo) or an Anthropic API key.</p>
+          <h4>Option A — Claude Pro (recommended for most people)</h4>
+          <p>Go to <strong>claude.ai</strong>, create an account, and upgrade to Pro. This is the simplest path — no API keys, no billing dashboards.</p>
+          <h4>Option B — Anthropic API Key (for developers)</h4>
+          <p>Go to <strong>console.anthropic.com</strong>, create an account, and generate an API key. You'll be billed per use rather than a flat monthly rate. Better if you're already building with the API.</p>
+          <div class="callout callout-tip">
+            <strong>Customize this:</strong> If your company has an Anthropic Teams or Enterprise plan, ask your admin for credentials. You may not need your own account.
+          </div>
+        </div>
+      </details>
+
+      <!-- STEP 2 -->
+      <details class="step">
+        <summary>
+          <div class="step-num">2</div>
+          <div class="step-meta">
+            <div class="step-title">Install Homebrew</div>
+            <div class="step-subtitle">Mac's package manager — makes installing everything else easy</div>
+          </div>
+          <div class="step-toggle">▼</div>
+        </summary>
+        <div class="step-body">
+          <p>Homebrew lets you install developer tools from your terminal with a single command. If you already have it, skip to Step 3.</p>
+          <h4>Check if you already have it</h4>
+          <div class="code-block">
+            <pre><span class="fn">brew</span> --version</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <p>If you see a version number, you're good. If you see "command not found", run the installer below.</p>
+          <h4>Install Homebrew</h4>
+          <p>Open <strong>Terminal</strong> (press <code>⌘ Space</code>, type "Terminal", press Enter) and paste this command:</p>
+          <div class="code-block">
+            <pre>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <p>Follow the prompts. It will ask for your Mac password. This takes 3–5 minutes.</p>
+          <div class="callout callout-warn">
+            <strong>Apple Silicon Macs (M1/M2/M3/M4):</strong> After installing, Homebrew will tell you to run two extra commands to add it to your PATH. Do that before moving on.
+          </div>
+        </div>
+      </details>
+
+      <!-- STEP 3 -->
+      <details class="step">
+        <summary>
+          <div class="step-num">3</div>
+          <div class="step-meta">
+            <div class="step-title">Install Node.js</div>
+            <div class="step-subtitle">Claude Code is installed through Node's package manager</div>
+          </div>
+          <div class="step-toggle">▼</div>
+        </summary>
+        <div class="step-body">
+          <p>Node.js is a JavaScript runtime — you don't need to know anything about it. It's just the vehicle Claude Code rides in on.</p>
+          <div class="code-block">
+            <pre><span class="fn">brew</span> install node</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <p>Verify it installed correctly:</p>
+          <div class="code-block">
+            <pre><span class="fn">node</span> -v</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <p>You should see a version number like <code>v22.x.x</code>. If so, you're ready for the next step.</p>
+        </div>
+      </details>
+
+      <!-- STEP 4 -->
+      <details class="step">
+        <summary>
+          <div class="step-num">4</div>
+          <div class="step-meta">
+            <div class="step-title">Install Claude Code</div>
+            <div class="step-subtitle">The CLI tool that runs your entire Digital Personal Assistant system</div>
+          </div>
+          <div class="step-toggle">▼</div>
+        </summary>
+        <div class="step-body">
+          <p>This installs the <code>claude</code> command globally on your Mac.</p>
+          <div class="code-block">
+            <pre>npm install -g @anthropic-ai/claude-code</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <p>After it installs, run <code>claude</code> once to authenticate:</p>
+          <div class="code-block">
+            <pre><span class="fn">claude</span></pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <p>It will open a browser window asking you to log in with your Anthropic account (from Step 1). Log in, approve, and return to the terminal. You only do this once.</p>
+          <p>Type <code>/exit</code> or press <code>Ctrl+C</code> to close Claude Code for now.</p>
+        </div>
+      </details>
+
+      <!-- STEP 5 -->
+      <details class="step">
+        <summary>
+          <div class="step-num">5</div>
+          <div class="step-meta">
+            <div class="step-title">Create your assistant folder</div>
+            <div class="step-subtitle">This is the root of your entire system — everything lives here</div>
+          </div>
+          <div class="step-toggle">▼</div>
+        </summary>
+        <div class="step-body">
+          <p>Every file in your system lives inside this one folder. Claude Code launches inside it, reads it, and writes to it. Where you put it and what you name it is up to you.</p>
+          <div class="code-block">
+            <pre>mkdir ~/Desktop/Assistant</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <div class="callout callout-tip">
+            <strong>Name it anything:</strong> <code>MyAI</code>, <code>Assistant</code>, your own name — whatever you'll remember. You can also put it in <code>~/Documents/</code> or a cloud-synced folder. Just pick a location and be consistent.
+          </div>
+        </div>
+      </details>
+
+      <!-- STEP 6 -->
+      <details class="step">
+        <summary>
+          <div class="step-num">6</div>
+          <div class="step-meta">
+            <div class="step-title">Download and unzip the starter kit</div>
+            <div class="step-subtitle">Pre-built files that power the onboarding process</div>
+          </div>
+          <div class="step-toggle">▼</div>
+        </summary>
+        <div class="step-body">
+          <p>The starter kit contains the config files, onboarding instructions, and your two default support team members. The onboarding process names them, builds your lead persona, and writes everything else — you don't need to manually create any files.</p>
+          <h4>Download the starter kit</h4>
+          <p>Click the button below to download the starter kit zip file.</p>
+          <p style="margin-top: 0.75rem;">
+            <a href="https://github.com/chandlercatron/ai-assistant-guide/releases/latest/download/starter-kit.zip" style="display:inline-block; background: #7c3aed; color: #fff; padding: 0.6rem 1.4rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Download Starter Kit</a>
+          </p>
+          <h4>Unzip it into your folder</h4>
+          <p>Move the downloaded zip to your Desktop, then run:</p>
+          <div class="code-block">
+            <pre><span class="cm"># Unzip the starter kit contents directly into your Assistant folder</span>
+unzip ~/Desktop/starter-kit.zip -d ~/Desktop/Assistant</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <p>When done, your folder should contain:</p>
+          <div class="folder-tree">
+<span class="dir">Assistant/</span>
+├── CLAUDE.md             <span class="comment"># System config — loads automatically</span>
+├── onboarding.md         <span class="comment"># Onboarding flow — runs on first launch</span>
+├── walkthrough.md        <span class="comment"># Persistent system guide</span>
+└── <span class="dir">team/</span>
+    ├── sage.md           <span class="comment"># Knowledge &amp; File Manager</span>
+    └── nadia.md          <span class="comment"># Personnel Director</span>
+          </div>
+          <div class="callout callout-tip">
+            <strong>Or clone from GitHub:</strong> If you're comfortable with git, run <code>git clone https://github.com/chandlercatron/ai-assistant-guide.git ~/Desktop/Assistant</code> instead.
+          </div>
+        </div>
+      </details>
+
+      <!-- STEP 7 -->
+      <details class="step">
+        <summary>
+          <div class="step-num">7</div>
+          <div class="step-meta">
+            <div class="step-title">Launch Claude Code and start onboarding</div>
+            <div class="step-subtitle">From here, everything is conversational — the system guides you</div>
+          </div>
+          <div class="step-toggle">▼</div>
+        </summary>
+        <div class="step-body">
+          <p>Navigate into your folder and launch Claude Code:</p>
+          <div class="code-block">
+            <pre>cd ~/Desktop/Assistant && claude</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <p>The system will detect the onboarding file and start walking you through setup automatically. The onboarding will:</p>
+          <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 1.5rem; margin-top: 0.5rem; line-height: 1.8;">
+            <li>Teach you two essential Claude Code commands (<code>/rename</code> and <code>/resume</code>)</li>
+            <li>Detect your operating system</li>
+            <li>Help you name and design your lead AI persona</li>
+            <li>Set up a terminal shortcut to launch your assistant by name</li>
+            <li>Ask about the areas of your life you want to manage</li>
+            <li>Capture personal and professional context</li>
+            <li>Write all your system files automatically when done</li>
+          </ul>
+          <div class="callout callout-tip">
+            <strong>You can pause anytime.</strong> If you close the window mid-onboarding, open a new terminal, navigate back to your folder, run <code>claude</code>, then type <code>/resume</code> and select "Initial Onboarding" to pick up exactly where you left off.
+          </div>
+          <h4 class="step-section-title">Important: always launch from your folder</h4>
+          <p>Claude Code reads the folder it's launched from. If you open it from somewhere else, it won't load your system. The onboarding will walk you through setting up a shortcut — after that, you'll launch by typing your assistant's name in any terminal window.</p>
+        </div>
+      </details>
+
+    </div><!-- end .steps -->
+
+    <!-- DONE -->
+    <div class="done-bar">
+      <div class="done-icon">✓</div>
+      <h3>That's all the manual setup.</h3>
+      <p>Everything else happens inside the conversation. The onboarding process handles naming your assistant, building your team, and setting up your knowledge base — no file editing required.</p>
+    </div>
+
+    <!-- WHAT'S NEXT -->
+    <div style="margin-top: 2.5rem;">
+      <div style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; margin-bottom: 0.75rem;">After Onboarding</div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+        <div style="background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1rem;">
+          <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem;">Just start talking</div>
+          <div style="font-size: 0.8rem; color: #7d8590;">Ask what you should focus on today, brain dump a project, or ask for help with anything. Your assistant learns from every conversation.</div>
+        </div>
+        <div style="background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1rem;">
+          <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem;">Write journal entries</div>
+          <div style="font-size: 0.8rem; color: #7d8590;">Tell your assistant you want to do a journal entry. Your knowledge manager will process it and surface patterns over time.</div>
+        </div>
+        <div style="background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 1rem;">
+          <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 0.3rem;">Grow the team</div>
+          <div style="font-size: 0.8rem; color: #7d8590;">Ask your personnel director to add a specialist when you need one — health coach, finance director, creative lead. The team expands as your needs do.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end .page-wrap -->
+
+  <footer>
+    Digital Personal Assistant Setup Guide &mdash; Built by Chandler Catron &mdash; AI Mastermind 2026
+  </footer>
+
+  <script>
+    function copyCode(btn) {
+      const pre = btn.previousElementSibling;
+      navigator.clipboard.writeText(pre.innerText).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+
+</body>
+</html>
