@@ -352,6 +352,7 @@
         <ul>
           <li>Windows 10 or Windows 11</li>
           <li>An Anthropic account — free at <strong>claude.ai</strong> (Pro plan required for Claude Code)</li>
+          <li>Git for Windows — required by Claude Code (free at <strong>git-scm.com/downloads/win</strong>)</li>
           <li>About 15–20 minutes total</li>
         </ul>
       </div>
@@ -457,6 +458,9 @@
             <strong>PowerShell Execution Policy:</strong> If you get an error about scripts being disabled, run this first, then retry the npm install:
             <br /><br />
             <code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code>
+          </div>
+          <div class="callout callout-warn">
+            <strong>Git for Windows required:</strong> Claude Code won't run without Git Bash. If you haven't installed it yet, download it from <strong>git-scm.com/downloads/win</strong> and run the installer with default settings before continuing. If it's already installed but you still see a Git Bash error, set this environment variable and reopen your terminal: <code>CLAUDE_CODE_GIT_BASH_PATH=C:\Program Files\Git\bin\bash.exe</code>
           </div>
           <p>After it installs, run <code>claude</code> once to authenticate:</p>
           <div class="code-block">
