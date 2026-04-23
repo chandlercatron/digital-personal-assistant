@@ -373,6 +373,9 @@
           <li>An Anthropic account — free at <strong>claude.ai</strong> (Pro plan required for Claude Code)</li>
           <li>About 15–20 minutes total</li>
         </ul>
+        <p style="margin-top: 0.75rem; color: var(--text-muted);">
+          <strong style="color: var(--text);">How to open Terminal:</strong> Press <code>⌘ Space</code> to open Spotlight, type <strong>Terminal</strong>, and press Enter. Terminal is a built-in Mac app — no download required. You'll use it for most steps in this guide.
+        </p>
       </div>
     </div>
 
@@ -412,6 +415,9 @@
         </summary>
         <div class="step-body">
           <p>Homebrew lets you install developer tools from your terminal with a single command. If you already have it, skip to Step 3.</p>
+          <div class="callout callout-tip">
+            <strong>Is this safe?</strong> Yes — Homebrew is one of the most widely used open-source tools on Mac, maintained by a large independent developer community. It has nothing to do with AI. Think of it like the Mac App Store, but for developer tools. The installer runs from GitHub, which is where most trusted open-source software lives.
+          </div>
           <h4>Check if you already have it</h4>
           <div class="code-block">
             <pre><span class="fn">brew</span> --version</pre>
@@ -443,11 +449,14 @@
         </summary>
         <div class="step-body">
           <p>Node.js is a JavaScript runtime — you don't need to know anything about it. It's just the vehicle Claude Code rides in on.</p>
+          <h4>Option A — Install via Homebrew (recommended)</h4>
           <div class="code-block">
             <pre><span class="fn">brew</span> install node</pre>
             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
           </div>
-          <p>Verify it installed correctly:</p>
+          <h4>Option B — Download the installer</h4>
+          <p>Go to <strong>nodejs.org</strong>, download the LTS (Long Term Support) version, and run the installer. Click through the defaults. Then close and reopen Terminal before continuing.</p>
+          <h4>Verify the installation</h4>
           <div class="code-block">
             <pre><span class="fn">node</span> -v</pre>
             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
@@ -471,6 +480,9 @@
           <div class="code-block">
             <pre>npm install -g @anthropic-ai/claude-code</pre>
             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <div class="callout callout-warn">
+            <strong>Git required:</strong> Claude Code requires Git to run local sessions. If you installed Homebrew in Step 2, you likely already have it. If you skipped Homebrew, run <code>brew install git</code> now — or download Git from <strong>git-scm.com/downloads/mac</strong> and install it, then reopen Terminal before continuing.
           </div>
           <p>After it installs, run <code>claude</code> once to authenticate:</p>
           <div class="code-block">
@@ -522,11 +534,13 @@
             <a href="https://github.com/chandlercatron/digital-personal-assistant/releases/latest/download/starter-kit.zip" style="display:inline-block; background: #7c3aed; color: #fff; padding: 0.6rem 1.4rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Download Starter Kit</a>
           </p>
           <h4>Unzip it into your folder</h4>
-          <p>Move the downloaded zip to your Desktop, then run:</p>
+          <p>Move the downloaded zip to your Desktop, then run this in Terminal to unzip it directly into your Assistant folder:</p>
           <div class="code-block">
-            <pre><span class="cm"># Unzip the starter kit contents directly into your Assistant folder</span>
-unzip ~/Desktop/starter-kit.zip -d ~/Desktop/Assistant</pre>
+            <pre>unzip ~/Desktop/starter-kit.zip -d ~/Desktop/Assistant</pre>
             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <div class="callout callout-tip">
+            <strong>Prefer to do it manually?</strong> That works too — just double-click the zip file to unzip it, then drag the contents into your Assistant folder. Make sure the files land inside the folder, not in a nested subfolder.
           </div>
           <p>When done, your folder should contain:</p>
           <div class="folder-tree">
@@ -572,6 +586,17 @@ unzip ~/Desktop/starter-kit.zip -d ~/Desktop/Assistant</pre>
           </ul>
           <div class="callout callout-tip">
             <strong>You can pause anytime.</strong> If you close the window mid-onboarding, open a new terminal, navigate back to your folder, run <code>claude</code>, then type <code>/resume</code> and select "Initial Onboarding" to pick up exactly where you left off.
+          </div>
+          <h4 class="step-section-title">Prefer the desktop app? Use Claude Code from there instead</h4>
+          <p>If you have the Claude desktop app installed, you can run Claude Code without using Terminal at all:</p>
+          <ol style="color: var(--text-muted); font-size: 0.9rem; padding-left: 1.5rem; margin-top: 0.5rem; line-height: 1.8;">
+            <li>Open the Claude desktop app</li>
+            <li>Click the icon in the top-left corner and select <strong>Claude Code</strong> (you may see it labeled as switching from "Claude" to "Claude Code")</li>
+            <li>Once in Claude Code mode, click <strong>Open Folder</strong> (or the folder icon) and navigate to your Assistant folder</li>
+            <li>Claude Code will launch with your folder loaded — the onboarding starts automatically</li>
+          </ol>
+          <div class="callout callout-tip">
+            <strong>Note:</strong> The Claude desktop app chat and Claude Code are different things. The chat app is for conversations on claude.ai. Claude Code is the tool that reads your Assistant folder and runs your system. Make sure you've switched to Code mode before trying to connect your folder.
           </div>
           <h4 class="step-section-title">Important: always launch from your folder</h4>
           <p>Claude Code reads the folder it's launched from. If you open it from somewhere else, it won't load your system. The onboarding will walk you through setting up a shortcut — after that, you'll launch by typing your assistant's name in any terminal window.</p>
