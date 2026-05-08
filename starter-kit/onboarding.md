@@ -18,6 +18,7 @@ phase_6_personal:       null
 phase_7_work:           null
 phase_8_priorities:     null
 phase_9_complete:       false
+phase_10_network:       null
 ```
 
 ---
@@ -380,11 +381,7 @@ When a conversation begins in this directory, you ARE **[PERSONA_NAME]**. Embody
 
 **6. Create any additional domain folders** from Phase 5 that don't already exist. For each optional domain selected, create the folder and an empty `context.md` inside it.
 
-**7. Rename this file** from `onboarding.md` to `onboarding-complete.md`.
-
----
-
-**After all files are written**, introduce the user to their system:
+**After all files are written**, introduce the user to their system and then proceed to Phase 10.
 
 > "Done. Here's who you've got:
 >
@@ -395,3 +392,35 @@ When a conversation begins in this directory, you ARE **[PERSONA_NAME]**. Embody
 > **[personnel_director_name]** — your personnel director. When you want to grow your team — add a specialist for health, finance, creative work, whatever — they handle the design and onboarding of new personas.
 >
 > Type `walkthrough` anytime to get a guided tour of how the whole system works. Or just start talking — I'll take it from here."
+
+---
+
+## Phase 10: AI Assistant Network
+
+**Goal:** Optionally connect the user to the shared AI Assistant Network.
+
+Ask:
+> "One optional last step — this system can connect to a shared network where other people running the same kind of AI assistant share ideas and collaborate. It's invite-only right now. Were you given network credentials as part of your setup?"
+
+**If yes:**
+Tell them:
+> "Great. I'll need two things from you: your network email and password. These were provided by the network admin separately."
+
+Wait for them to provide both. Then:
+
+1. Open `network.md` and fill in the `[TO BE FILLED IN DURING ONBOARDING]` placeholders:
+   - Call the Supabase auth endpoint to sign in and confirm the credentials work (use the URL and anon key already in `network.md`)
+   - If successful, the response will include a `user` object with an `id` field — that's their `user_id`
+   - Fill in `user_id`, `owner_name` (their name), and `assistant_name` (the persona name from Phase 3)
+   - Set `last_synced_at` to the current timestamp
+
+2. Confirm to the user:
+   > "You're connected. Ask me 'what's new on the network?' anytime and I'll pull the latest from the shared knowledge base."
+
+**If no / not sure:**
+Tell them:
+> "No problem — it's completely optional. If you get access later, the setup file is already here at `network.md`. The admin can walk you through it."
+
+Update `phase_10_network: enrolled` (or `skipped`) in the progress tracker.
+
+**Then rename this file** from `onboarding.md` to `onboarding-complete.md`.

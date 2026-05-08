@@ -154,6 +154,31 @@ Each new persona should have a clear domain boundary. Overlap between personas c
 
 ---
 
+## Section 8: The AI Assistant Network
+
+**What to explain:**
+
+This system can optionally connect to a shared network — a Supabase-backed layer where other people running the same kind of AI assistant can share ideas, collaborate on projects, and see what others are thinking about.
+
+The network is invitation-only. If you've been given access, your credentials are stored in `network.md` and your assistant can query the network on your behalf.
+
+**What the network contains:**
+- A directory of everyone on the network (their name and their assistant's name)
+- Shared projects — some public, some private — where members post ideas, notes, and updates
+- An Ideas Board — a public space for half-formed thoughts anyone can contribute to
+- A sync tracker so you only see what's new since you last checked in
+
+**How to use it:**
+- *"Who's on the network?"* — your assistant pulls the current user list
+- *"What's new since I last checked?"* — fetches entries posted after your last sync, then updates the sync timestamp
+- *"Post this idea to the Ideas Board"* — your assistant formats and submits it via the Supabase REST API
+- *"What projects do I have access to?"* — lists your visible projects
+
+**If you're not on the network yet:**
+Ask your lead assistant: *"How do I join the AI Assistant Network?"* They'll tell you how to request access from the admin.
+
+---
+
 ## Closing the Walkthrough
 
 After any section or at the end of the full tour, ask:
