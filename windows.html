@@ -313,6 +313,72 @@
       border-top: 1px solid var(--border);
     }
 
+    /* ── PATH WIDGET ── */
+    .path-widget {
+      background: var(--surface);
+      border: 1px solid var(--warn-border);
+      border-radius: 12px;
+      padding: 1.4rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .path-widget-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+      color: var(--warn-border);
+      margin-bottom: 0.5rem;
+    }
+    .path-widget h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .path-widget p { color: var(--text-muted); font-size: 0.875rem; }
+    .path-input-row {
+      display: flex;
+      gap: 0.6rem;
+      margin-top: 0.75rem;
+      align-items: center;
+    }
+    .path-input-row input {
+      flex: 1;
+      background: #0a0e14;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      padding: 0.55rem 0.85rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .path-input-row input:focus { border-color: var(--warn-border); }
+    .path-input-row input::placeholder { color: var(--text-dim); }
+    .path-status {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-top: 0.5rem;
+      min-height: 1.2em;
+      transition: color 0.2s;
+    }
+    .path-status.set { color: var(--success); }
+
+    /* placeholder spans inside code blocks */
+    .dpath {
+      background: rgba(210, 153, 34, 0.18);
+      color: var(--warn-border);
+      border-radius: 3px;
+      padding: 0 2px;
+      font-style: italic;
+      transition: background 0.2s, color 0.2s;
+    }
+    .dpath.resolved {
+      background: rgba(63, 185, 80, 0.12);
+      color: #3fb950;
+      font-style: normal;
+    }
+
     .done-bar {
       background: linear-gradient(135deg, rgba(63, 185, 80, 0.1), transparent);
       border: 1px solid var(--success);
@@ -358,6 +424,22 @@
       </div>
     </div>
 
+    <!-- PATH DISCOVERY WIDGET -->
+    <div class="path-widget">
+      <div class="path-widget-label">Do this first</div>
+      <h3>Find your Desktop path</h3>
+      <p>Open PowerShell and run this command. It prints the exact path to your Desktop — which may differ from what you'd expect if you use OneDrive.</p>
+      <div class="code-block" style="margin-top: 0.75rem;">
+        <pre>[Environment]::GetFolderPath('Desktop')</pre>
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+      </div>
+      <p style="margin-top: 0.75rem;">It will print something like <code>C:\Users\yourname\OneDrive\Desktop</code>. Paste it below and the commands throughout this guide will fill in automatically — so you can copy and paste them without editing anything.</p>
+      <div class="path-input-row">
+        <input type="text" id="desktop-path-input" placeholder="Paste your Desktop path here (e.g. C:\Users\yourname\Desktop)" autocomplete="off" spellcheck="false" />
+      </div>
+      <div class="path-status" id="path-status">Waiting for your path…</div>
+    </div>
+
     <div class="steps">
 
       <!-- STEP 1 -->
@@ -387,32 +469,6 @@
         <summary>
           <div class="step-num">2</div>
           <div class="step-meta">
-            <div class="step-title">Install Windows Terminal</div>
-            <div class="step-subtitle">A modern terminal app — much better than the default Command Prompt</div>
-          </div>
-          <div class="step-toggle">▼</div>
-        </summary>
-        <div class="step-body">
-          <p>Windows Terminal supports tabs, multiple shells, and is the recommended environment for working with Claude Code. If you already have it, skip to Step 3.</p>
-          <h4>Install from Microsoft Store</h4>
-          <p>Open the <strong>Microsoft Store</strong> app, search for <strong>Windows Terminal</strong>, and install it. It's free and made by Microsoft.</p>
-          <h4>Or install via winget (if you prefer the terminal)</h4>
-          <p>Open <strong>PowerShell</strong> (press <code>Win + X</code>, click "Windows PowerShell") and run:</p>
-          <div class="code-block">
-            <pre>winget install --id Microsoft.WindowsTerminal -e</pre>
-            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-          </div>
-          <div class="callout callout-tip">
-            <strong>Going forward:</strong> Use Windows Terminal with PowerShell for all the commands in this guide. Right-click the Start button and choose "Terminal" to open it.
-          </div>
-        </div>
-      </details>
-
-      <!-- STEP 3 -->
-      <details class="step">
-        <summary>
-          <div class="step-num">3</div>
-          <div class="step-meta">
             <div class="step-title">Install Node.js</div>
             <div class="step-subtitle">Claude Code is installed through Node's package manager</div>
           </div>
@@ -421,7 +477,7 @@
         <div class="step-body">
           <p>Node.js is a JavaScript runtime — you don't need to know anything about it. It's just the vehicle Claude Code rides in on.</p>
           <h4>Option A — Install via winget (recommended)</h4>
-          <p>Open Windows Terminal and run:</p>
+          <p>Open PowerShell and run:</p>
           <div class="code-block">
             <pre>winget install OpenJS.NodeJS.LTS</pre>
             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
@@ -429,7 +485,7 @@
           <h4>Option B — Download the installer</h4>
           <p>Go to <strong>nodejs.org</strong>, download the LTS (Long Term Support) version, and run the installer. Click through the defaults.</p>
           <h4>Verify the installation</h4>
-          <p><strong>Close and reopen Windows Terminal</strong>, then run:</p>
+          <p><strong>Close and reopen PowerShell</strong>, then run:</p>
           <div class="code-block">
             <pre>node -v</pre>
             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
@@ -438,10 +494,10 @@
         </div>
       </details>
 
-      <!-- STEP 4 -->
+      <!-- STEP 3 -->
       <details class="step">
         <summary>
-          <div class="step-num">4</div>
+          <div class="step-num">3</div>
           <div class="step-meta">
             <div class="step-title">Install Claude Code</div>
             <div class="step-subtitle">The CLI tool that runs your entire Digital Personal Assistant system</div>
@@ -450,32 +506,39 @@
         </summary>
         <div class="step-body">
           <p>This installs the <code>claude</code> command globally on your PC.</p>
+          <h4>First — unlock script execution</h4>
+          <p>Windows blocks npm scripts by default. Run this once in PowerShell before anything else — it prevents the most common error people hit during this step:</p>
+          <div class="code-block">
+            <pre>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</pre>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <h4>Then — install Claude Code</h4>
           <div class="code-block">
             <pre>npm install -g @anthropic-ai/claude-code</pre>
             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
           </div>
           <div class="callout callout-warn">
-            <strong>PowerShell Execution Policy:</strong> If you get an error about scripts being disabled, run this first, then retry the npm install:
-            <br /><br />
-            <code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code>
-          </div>
-          <div class="callout callout-warn">
             <strong>Git for Windows required:</strong> Claude Code won't run without Git Bash. If you haven't installed it yet, download it from <strong>git-scm.com/downloads/win</strong> and run the installer with default settings before continuing. If it's already installed but you still see a Git Bash error, set this environment variable and reopen your terminal: <code>CLAUDE_CODE_GIT_BASH_PATH=C:\Program Files\Git\bin\bash.exe</code>
           </div>
-          <p>After it installs, run <code>claude</code> once to authenticate:</p>
+          <h4>Then — run Claude Code once to authenticate</h4>
           <div class="code-block">
             <pre>claude</pre>
             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
           </div>
-          <p>It will open a browser window asking you to log in with your Anthropic account (from Step 1). Log in, approve, and return to the terminal. You only do this once.</p>
-          <p>Type <code>/exit</code> or press <code>Ctrl+C</code> to close Claude Code for now.</p>
+          <p>Claude Code will walk you through a short first-time setup. Here's exactly what to select:</p>
+          <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 1.5rem; margin-top: 0.5rem; line-height: 1.8;">
+            <li><strong style="color: var(--text);">Theme</strong> — Select <strong style="color: var(--text);">Dark</strong></li>
+            <li><strong style="color: var(--text);">Login method</strong> — Select <strong style="color: var(--text);">Claude.ai (claude.ai/login)</strong> and sign in with your Claude Pro account from Step 1 above</li>
+            <li>Follow any remaining prompts and approve any permissions it requests</li>
+          </ul>
+          <p>Once setup is complete, type <code>/exit</code> or press <code>Ctrl+C</code> to close Claude Code. You'll launch it properly from your Assistant folder in Step 7.</p>
         </div>
       </details>
 
-      <!-- STEP 5 -->
+      <!-- STEP 4 -->
       <details class="step">
         <summary>
-          <div class="step-num">5</div>
+          <div class="step-num">4</div>
           <div class="step-meta">
             <div class="step-title">Create your assistant folder</div>
             <div class="step-subtitle">This is the root of your entire system — everything lives here</div>
@@ -484,20 +547,20 @@
         </summary>
         <div class="step-body">
           <p>Every file in your system lives inside this one folder. Claude Code launches inside it, reads it, and writes to it.</p>
-          <div class="code-block">
-            <pre>mkdir "$env:USERPROFILE\Desktop\Assistant"</pre>
-            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <p>Open <strong>File Explorer</strong>, navigate to your <strong>Desktop</strong>, right-click in an empty area, and select <strong>New → Folder</strong>. Name it <strong>Assistant</strong>.</p>
+          <div class="callout callout-warn">
+            <strong>OneDrive users:</strong> If your Desktop syncs to OneDrive, the folder you just created lives in your OneDrive Desktop — that's totally fine. The important thing is that you created it wherever File Explorer shows as your Desktop. The launch command in Step 6 will find it automatically.
           </div>
           <div class="callout callout-tip">
-            <strong>Name it anything:</strong> <code>MyAI</code>, <code>Assistant</code>, your own name — whatever you'll remember. You can also put it in Documents or a OneDrive folder. Just pick a location and be consistent.
+            <strong>Use a separate PowerShell window for all terminal commands.</strong> Do not try to run terminal commands inside Claude Code if it's already open — open a fresh PowerShell window.
           </div>
         </div>
       </details>
 
-      <!-- STEP 6 -->
+      <!-- STEP 5 -->
       <details class="step">
         <summary>
-          <div class="step-num">6</div>
+          <div class="step-num">5</div>
           <div class="step-meta">
             <div class="step-title">Download and unzip the starter kit</div>
             <div class="step-subtitle">Pre-built files that power the onboarding process</div>
@@ -511,13 +574,8 @@
           <p style="margin-top: 0.75rem;">
             <a href="https://github.com/chandlercatron/digital-personal-assistant/releases/latest/download/starter-kit.zip" style="display:inline-block; background: #7c3aed; color: #fff; padding: 0.6rem 1.4rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Download Starter Kit</a>
           </p>
-          <h4>Unzip it into your folder</h4>
-          <p>Move the downloaded zip to your Desktop, then run this in PowerShell:</p>
-          <div class="code-block">
-            <pre><span class="cm"># Expand the starter kit contents into your Assistant folder</span>
-Expand-Archive -Path "$env:USERPROFILE\Desktop\starter-kit.zip" -DestinationPath "$env:USERPROFILE\Desktop\Assistant"</pre>
-            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-          </div>
+          <h4>Unzip into your Assistant folder</h4>
+          <p>Right-click the downloaded <code>starter-kit.zip</code> and select <strong>Extract All...</strong>. Set the destination to your <strong>Assistant</strong> folder on the Desktop and click <strong>Extract</strong>. No terminal command needed.</p>
           <p>When done, your folder should contain:</p>
           <div class="folder-tree">
 <span class="dir">Assistant\</span>
@@ -529,15 +587,15 @@ Expand-Archive -Path "$env:USERPROFILE\Desktop\starter-kit.zip" -DestinationPath
     └── nadia.md          <span class="comment"># Personnel Director</span>
           </div>
           <div class="callout callout-tip">
-            <strong>Or clone from GitHub:</strong> If you have git installed, run <code>git clone https://github.com/chandlercatron/digital-personal-assistant.git "$env:USERPROFILE\Desktop\Assistant"</code> instead.
+            <strong>Or clone from GitHub:</strong> If you have git installed, run <code>git clone https://github.com/chandlercatron/digital-personal-assistant.git "<span class="dpath">YOUR_DESKTOP_PATH</span>\Assistant"</code> instead.
           </div>
         </div>
       </details>
 
-      <!-- STEP 7 -->
+      <!-- STEP 6 -->
       <details class="step">
         <summary>
-          <div class="step-num">7</div>
+          <div class="step-num">6</div>
           <div class="step-meta">
             <div class="step-title">Launch Claude Code and start onboarding</div>
             <div class="step-subtitle">From here, everything is conversational — the system guides you</div>
@@ -545,10 +603,13 @@ Expand-Archive -Path "$env:USERPROFILE\Desktop\starter-kit.zip" -DestinationPath
           <div class="step-toggle">▼</div>
         </summary>
         <div class="step-body">
-          <p>Navigate into your folder and launch Claude Code:</p>
+          <p>Navigate into your folder and launch Claude Code. This command automatically finds your Desktop whether or not you use OneDrive:</p>
           <div class="code-block">
-            <pre>cd "$env:USERPROFILE\Desktop\Assistant"; claude</pre>
+            <pre>cd "<span class="dpath">YOUR_DESKTOP_PATH</span>\Assistant"; claude</pre>
             <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <div class="callout callout-tip">
+            <strong>Not sure you're in the right folder?</strong> Run <code>explorer .</code> to open File Explorer in your current terminal location and verify the files are there.
           </div>
           <p>The system will detect the onboarding file and start walking you through setup automatically. The onboarding will:</p>
           <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 1.5rem; margin-top: 0.5rem; line-height: 1.8;">
@@ -564,7 +625,7 @@ Expand-Archive -Path "$env:USERPROFILE\Desktop\starter-kit.zip" -DestinationPath
             <strong>You can pause anytime.</strong> If you close the window mid-onboarding, open a new terminal, navigate back to your folder, run <code>claude</code>, then type <code>/resume</code> and select "Initial Onboarding" to pick up exactly where you left off.
           </div>
           <h4 class="step-section-title">Important: always launch from your folder</h4>
-          <p>Claude Code reads the folder it's launched from. If you open it from somewhere else, it won't load your system. The onboarding will walk you through setting up a PowerShell shortcut — after that, you'll launch by typing your assistant's name in any terminal window.</p>
+          <p>Claude Code reads the folder it's launched from. If you open it from somewhere else, it won't load your system. The onboarding will walk you through setting up a PowerShell shortcut — after that, you'll launch by typing your assistant's name in any PowerShell window.</p>
         </div>
       </details>
 
@@ -596,6 +657,11 @@ Expand-Archive -Path "$env:USERPROFILE\Desktop\starter-kit.zip" -DestinationPath
       </div>
     </div>
 
+    <!-- WINDOWS TERMINAL NOTE -->
+    <div style="margin-top: 2rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; font-size: 0.875rem; color: var(--text-muted);">
+      <strong style="color: var(--text);">Want a nicer terminal experience?</strong> Everything in this guide runs on the PowerShell that came with your PC. If you'd like tabs, custom themes, and a more polished look down the road, check out <strong style="color: var(--text);">Windows Terminal</strong> — it's free from the Microsoft Store and uses the same PowerShell you already have. Not required, just a nice upgrade.
+    </div>
+
   </div><!-- end .page-wrap -->
 
   <footer>
@@ -603,6 +669,32 @@ Expand-Archive -Path "$env:USERPROFILE\Desktop\starter-kit.zip" -DestinationPath
   </footer>
 
   <script>
+    const PLACEHOLDER = 'YOUR_DESKTOP_PATH';
+    let desktopPath = '';
+
+    const input = document.getElementById('desktop-path-input');
+    const status = document.getElementById('path-status');
+
+    input.addEventListener('input', () => {
+      desktopPath = input.value.trim().replace(/\\+$/, ''); // strip trailing backslashes
+      const spans = document.querySelectorAll('.dpath');
+      if (desktopPath) {
+        spans.forEach(s => {
+          s.textContent = desktopPath;
+          s.classList.add('resolved');
+        });
+        status.textContent = '✓ Path set — commands below are ready to copy.';
+        status.classList.add('set');
+      } else {
+        spans.forEach(s => {
+          s.textContent = PLACEHOLDER;
+          s.classList.remove('resolved');
+        });
+        status.textContent = 'Waiting for your path…';
+        status.classList.remove('set');
+      }
+    });
+
     function copyCode(btn) {
       const pre = btn.previousElementSibling;
       navigator.clipboard.writeText(pre.innerText).then(() => {
