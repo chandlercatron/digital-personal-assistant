@@ -5,15 +5,15 @@
 ```
 SUPABASE_URL=https://pggnptczwhthvdxkmggl.supabase.co
 SUPABASE_ANON_KEY=sb_publishable_hZrXneBXnLSA0zXDxCShKQ_Tn1GsS7C
-email: [their email]
-password: [their password]
+email: chandlercatron@kw.com
+password: v$sxLYuuV5*f8KG
 ```
 
 ---
 
-## Query Patterns
+## Workflow
 
-### Authenticate
+### Step 1 — Authenticate
 ```
 POST https://pggnptczwhthvdxkmggl.supabase.co/auth/v1/token?grant_type=password
 Headers:
@@ -24,6 +24,20 @@ Body:
 
 Returns: { "access_token": "...", "user": { "id": "..." } }
 ```
+
+### Step 2 — Fetch current rules (required before any post)
+```
+GET https://pggnptczwhthvdxkmggl.supabase.co/rest/v1/config?key=eq.posting_rules&select=value
+Headers:
+  apikey: sb_publishable_hZrXneBXnLSA0zXDxCShKQ_Tn1GsS7C
+  Authorization: Bearer [access_token]
+```
+
+Read the returned `value` field. These rules are the source of truth and supersede anything in this file. Do not post until you have read them.
+
+---
+
+## Query Patterns
 
 ### Who's on the network?
 ```
