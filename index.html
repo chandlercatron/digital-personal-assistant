@@ -303,6 +303,68 @@
       margin-bottom: 2rem;
     }
 
+    /* ── GUIDED PROMPT ── */
+    .guided {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    .guided-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+    .guided-box h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .guided-box > p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 1.1rem;
+    }
+    .guided-actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .btn-copy {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 0.55rem 1.2rem;
+      font-family: var(--font);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-copy:hover { background: var(--accent-light); }
+    .guided details {
+      margin-top: 1.1rem;
+    }
+    .guided summary {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .guided pre {
+      margin-top: 0.75rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: pre-wrap;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+
     /* ── FOOTER ── */
     footer {
       border-top: 1px solid var(--border);
@@ -420,9 +482,59 @@
     </div>
   </section>
 
+  <!-- GUIDED SETUP PROMPT -->
+  <section class="guided">
+    <div class="guided-box">
+      <h3>Prefer a hand-held setup?</h3>
+      <p>Copy the prompt below, go to <strong>claude.ai</strong>, sign in (or create an account), start a new chat, and paste it in. Claude will walk you through the entire install one step at a time — and troubleshoot with you if anything goes wrong. Heads up: the assistant you're building lives in your computer's <strong>terminal</strong>, not on the web — the chat is just there to get you set up.</p>
+      <div class="guided-actions">
+        <button class="btn-copy" id="copyPromptBtn" onclick="copyGuidedPrompt()">Copy Setup Prompt</button>
+      </div>
+      <details>
+        <summary>Preview the prompt</summary>
+        <pre id="guidedPrompt">I want you to act as my personal setup guide. I'm setting up a "Digital Personal Assistant" — a personal AI organization that lives in a folder on my computer and runs through Claude Code in my terminal. Your job is to walk me through the entire setup, one step at a time, and troubleshoot anything that goes wrong until it's up and running.
+
+IMPORTANT CONTEXT ABOUT WHAT I'M BUILDING:
+- The end product is NOT a web chatbot. It is a persistent AI system that lives in a folder on my computer, and I will use it through the TERMINAL every single day, via a tool called Claude Code. This chat on claude.ai is only for setup. Once setup is done, my daily interface is the terminal: open it, run a command, and talk to my assistant there. Make sure I clearly understand this — repeat it if needed, because a lot of people miss it.
+- The system I'm building: a lead AI persona (like a chief of staff) backed by a small team of AI specialists, folders for the different areas of my life, and memory that persists between conversations.
+- A pre-built starter kit handles the assistant's personality and team setup. Once Claude Code is running inside the folder, the assistant itself takes over with its own built-in onboarding. Your job ends when that onboarding begins.
+
+HOW TO GUIDE ME:
+1. One step at a time. Give me a single instruction, wait for me to confirm or paste what I see, then continue. Never dump multiple steps at once.
+2. Assume I am not technical. Before each command, explain in one plain sentence what it does.
+3. If something fails, ask me to paste the exact error text. Do not guess at fixes without seeing the error.
+4. Verify every step before moving on (for example, have me run a version check and tell you the output).
+
+THE SETUP YOU ARE GUIDING ME THROUGH:
+1. Ask what kind of computer I'm using (Mac or Windows) and tailor every command to my OS.
+2. Confirm prerequisites: I need a Claude account with a paid plan (Pro or Max) — Claude Code requires it. If I don't have one, help me get set up at claude.ai first.
+3. Teach me how to open my terminal (Terminal on Mac via Cmd+Space; PowerShell on Windows) and explain that this window is where my assistant will live from now on.
+4. Install Node.js — the LTS version from nodejs.org. Verify with: node -v
+5. Install Claude Code by running: npm install -g @anthropic-ai/claude-code — then verify with: claude --version
+6. Create the assistant's folder. Suggest Desktop/Assistant but let me name it whatever I want.
+7. Download the starter kit from this exact URL: https://github.com/chandlercatron/digital-personal-assistant/releases/latest/download/starter-kit.zip — then help me unzip its contents directly into my assistant folder. The files (CLAUDE.md, onboarding.md, walkthrough.md, the team folder) must sit directly inside the folder, not nested inside a subfolder.
+8. In the terminal, navigate into the folder with cd, then run: claude — help me through the first-time login (it opens a browser to sign in with my Claude account) and any trust or permission prompts that appear.
+9. Once Claude Code starts inside that folder, the built-in onboarding takes over automatically — it will introduce itself and start asking me questions. At that moment, tell me clearly: "From here on, this terminal is where your assistant lives. Daily use means opening the terminal and running claude in this folder — the onboarding will help you set up a one-word shortcut." Then your job is done.
+
+If I get stuck at any point, stay with me on that step until it's resolved. Start now by asking me what kind of computer I'm using.</pre>
+      </details>
+    </div>
+  </section>
+
   <footer>
     Built by Chandler Catron &mdash; AI Mastermind 2026
   </footer>
+
+  <script>
+    function copyGuidedPrompt() {
+      const text = document.getElementById("guidedPrompt").textContent;
+      navigator.clipboard.writeText(text).then(function () {
+        const btn = document.getElementById("copyPromptBtn");
+        btn.textContent = "Copied ✓";
+        setTimeout(function () { btn.textContent = "Copy Setup Prompt"; }, 2000);
+      });
+    }
+  </script>
 
 </body>
 </html>
