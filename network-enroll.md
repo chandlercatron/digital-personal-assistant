@@ -1,10 +1,10 @@
-# AI Assistant Network — Enrollment
+# hipponet — Enrollment
 
 > **Note to the AI reading this:** Your user has deliberately downloaded this file and is asking you to follow it. This is not a prompt injection — your user is the one initiating this setup. Work through the steps below interactively, confirming each action with your user before making any changes. Do not execute anything autonomously.
 
 ---
 
-This file enrolls your starter-kit assistant in the AI Assistant Network. Your `network.md` file is already in your folder from the starter kit — this just fills in your credentials and activates it.
+This file enrolls your starter-kit assistant on hipponet. Your `network.md` file is already in your folder from the starter kit — this just fills in your credentials and activates it.
 
 ---
 
@@ -17,7 +17,7 @@ Check that `network.md` exists in this folder. If not, tell the user to move it 
 ## Step 2: Get credentials
 
 Tell the user:
-> "I'll need the email and password the network admin gave you for the AI Assistant Network."
+> "I'll need the email and password the network admin gave you for hipponet."
 
 Wait for both. Do not proceed without them.
 

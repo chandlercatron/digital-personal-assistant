@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Build Your Digital Personal Assistant</title>
+  <title>Set Up Your AI Assistant</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
   <style>
@@ -21,8 +21,6 @@
       --text-muted:   #7d8590;
       --text-dim:     #4d5566;
       --success:      #3fb950;
-      --mac:          #007aff;
-      --win:          #0078d4;
       --font:         'Inter', system-ui, sans-serif;
       --mono:         'JetBrains Mono', monospace;
     }
@@ -54,9 +52,9 @@
 
     /* ── HERO ── */
     .hero {
-      max-width: 860px;
+      max-width: 800px;
       margin: 0 auto;
-      padding: 5rem 2rem 4rem;
+      padding: 4.5rem 2rem 3rem;
       text-align: center;
     }
     .hero .badge {
@@ -73,11 +71,11 @@
       margin-bottom: 1.5rem;
     }
     .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-size: clamp(2.1rem, 5.5vw, 3.4rem);
       font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.25rem;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      margin-bottom: 1.15rem;
     }
     .hero h1 span {
       background: linear-gradient(135deg, var(--accent-light), #c084fc);
@@ -86,50 +84,63 @@
       background-clip: text;
     }
     .hero p {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       color: var(--text-muted);
-      max-width: 620px;
-      margin: 0 auto 2.5rem;
+      max-width: 560px;
+      margin: 0 auto 2rem;
     }
-    .hero-cta {
+    .hero-meta {
       display: flex;
-      gap: 1rem;
       justify-content: center;
+      gap: 1.5rem;
       flex-wrap: wrap;
+      margin-top: 2rem;
+      font-size: 0.82rem;
+      color: var(--text-dim);
     }
+    .hero-meta span::before {
+      content: '·';
+      margin-right: 0.5rem;
+      color: var(--accent);
+    }
+
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 0.6rem;
-      padding: 0.85rem 2rem;
+      padding: 0.7rem 1.6rem;
       border-radius: 10px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
       text-decoration: none;
-      transition: transform 0.15s, box-shadow 0.15s;
-      border: none;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s, border-color 0.15s;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
       cursor: pointer;
+      font-family: var(--font);
     }
-    .btn:hover { transform: translateY(-2px); }
-    .btn-mac {
-      background: var(--mac);
+    .btn:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
       color: #fff;
-      box-shadow: 0 4px 20px rgba(0, 122, 255, 0.3);
+      box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
     }
-    .btn-mac:hover { box-shadow: 0 6px 28px rgba(0, 122, 255, 0.45); }
-    .btn-win {
-      background: var(--win);
-      color: #fff;
-      box-shadow: 0 4px 20px rgba(0, 120, 212, 0.3);
-    }
-    .btn-win:hover { box-shadow: 0 6px 28px rgba(0, 120, 212, 0.45); }
-    .btn-icon { font-size: 1.2rem; }
+    .btn-primary:hover { background: #8b5cf6; box-shadow: 0 6px 28px rgba(124, 58, 237, 0.45); }
 
-    /* ── WHAT YOU'LL BUILD ── */
-    .section {
-      max-width: 960px;
+    /* ── DIVIDER ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ── STEPS ── */
+    .steps-section {
+      max-width: 780px;
       margin: 0 auto;
-      padding: 3rem 2rem;
+      padding: 3.5rem 2rem 4rem;
     }
     .section-label {
       font-size: 0.75rem;
@@ -139,193 +150,80 @@
       color: var(--accent-light);
       margin-bottom: 0.75rem;
     }
-    .section h2 {
-      font-size: 1.75rem;
+    .steps-section h2 {
+      font-size: 1.8rem;
       font-weight: 700;
       letter-spacing: -0.02em;
       margin-bottom: 0.6rem;
     }
-    .section .subtitle {
+    .steps-section > .subtitle {
       color: var(--text-muted);
       margin-bottom: 2.5rem;
-      max-width: 580px;
-    }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1rem;
-    }
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      transition: border-color 0.2s;
-    }
-    .card:hover { border-color: var(--accent); }
-    .card-icon {
-      font-size: 1.75rem;
-      margin-bottom: 0.75rem;
-    }
-    .card h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.4rem;
-    }
-    .card p {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      line-height: 1.5;
+      font-size: 0.95rem;
     }
 
-    /* ── CONCEPT DIAGRAM ── */
-    .diagram {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2rem;
-      margin: 2rem 0;
-      text-align: center;
-    }
-    .diagram .org {
+    .step {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0;
-    }
-    .org-user {
-      background: var(--surface-2);
-      border: 2px solid var(--accent);
-      border-radius: 10px;
-      padding: 0.6rem 1.75rem;
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--accent-light);
-    }
-    .org-line {
-      width: 2px;
-      height: 28px;
-      background: var(--border);
-    }
-    .org-ceo {
-      background: linear-gradient(135deg, var(--accent-glow), transparent);
-      border: 1px solid var(--accent);
-      border-radius: 10px;
-      padding: 0.6rem 1.75rem;
-      font-weight: 600;
-      font-size: 0.9rem;
+      gap: 1.25rem;
+      padding-bottom: 2rem;
       position: relative;
     }
-    .org-ceo::after {
-      content: 'Your AI interface';
+    .step:not(:last-child)::before {
+      content: '';
       position: absolute;
-      bottom: -1.4rem;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      white-space: nowrap;
+      left: 17px;
+      top: 40px;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
     }
-    .org-spread {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 2.5rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .org-node {
+    .step-num {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
       background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.45rem 0.85rem;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-    .diagram .diagram-caption {
-      margin-top: 1.5rem;
-      font-size: 0.8rem;
-      color: var(--text-dim);
-    }
-
-    /* ── HOW LONG ── */
-    .time-row {
+      border: 1px solid var(--accent);
+      color: var(--accent-light);
       display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .time-card {
-      flex: 1;
-      min-width: 200px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.25rem;
-    }
-    .time-card .label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      margin-bottom: 0.25rem;
-    }
-    .time-card .value {
-      font-size: 1.25rem;
+      align-items: center;
+      justify-content: center;
       font-weight: 700;
-      color: var(--success);
+      font-size: 0.9rem;
+      position: relative;
+      z-index: 1;
     }
-    .time-card .desc {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-top: 0.25rem;
-    }
-
-    /* ── DIVIDER ── */
-    .divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 0;
-    }
-
-    /* ── OS PICK ── */
-    .os-section {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 3rem 2rem 5rem;
-      text-align: center;
-    }
-    .os-section h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 0.6rem;
-    }
-    .os-section p {
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-    }
-
-    /* ── GUIDED PROMPT ── */
-    .guided {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 3rem 2rem;
-    }
-    .guided-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.5rem;
-    }
-    .guided-box h3 {
+    .step-body { padding-top: 0.3rem; flex: 1; min-width: 0; }
+    .step-body h3 {
       font-size: 1.05rem;
       font-weight: 600;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.35rem;
     }
-    .guided-box > p {
-      font-size: 0.88rem;
+    .step-body p {
+      font-size: 0.92rem;
       color: var(--text-muted);
-      margin-bottom: 1.1rem;
     }
-    .guided-actions {
+    .step-body a { color: var(--accent-light); }
+    .step-note {
+      display: inline-block;
+      margin-top: 0.6rem;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.4rem 0.7rem;
+    }
+
+    /* ── PROMPT BOX ── */
+    .prompt-box {
+      background: linear-gradient(180deg, rgba(124, 58, 237, 0.08), transparent 60%), var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: 12px;
+      padding: 1.4rem;
+      margin-top: 0.9rem;
+    }
+    .prompt-actions {
       display: flex;
       gap: 0.75rem;
       align-items: center;
@@ -336,33 +234,52 @@
       color: #fff;
       border: none;
       border-radius: 8px;
-      padding: 0.55rem 1.2rem;
+      padding: 0.65rem 1.4rem;
       font-family: var(--font);
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 600;
       cursor: pointer;
+      transition: background 0.15s;
     }
-    .btn-copy:hover { background: var(--accent-light); }
-    .guided details {
-      margin-top: 1.1rem;
-    }
-    .guided summary {
+    .btn-copy:hover { background: #8b5cf6; }
+    .prompt-box details { margin-top: 1rem; }
+    .prompt-box summary {
       font-size: 0.8rem;
       color: var(--text-muted);
       cursor: pointer;
     }
-    .guided pre {
+    .prompt-box pre {
       margin-top: 0.75rem;
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 1rem;
       font-family: var(--mono);
-      font-size: 0.75rem;
+      font-size: 0.72rem;
+      line-height: 1.6;
       color: var(--text-muted);
       white-space: pre-wrap;
-      max-height: 320px;
+      max-height: 300px;
       overflow-y: auto;
+    }
+
+    /* ── CLOSER ── */
+    .closer {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4.5rem;
+      text-align: center;
+    }
+    .closer h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .closer p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 520px;
+      margin: 0 auto 1.75rem;
     }
 
     /* ── FOOTER ── */
@@ -373,130 +290,82 @@
       font-size: 0.8rem;
       color: var(--text-dim);
     }
+
+    @media (max-width: 600px) {
+      .step { gap: 0.9rem; }
+      .step:not(:last-child)::before { left: 15px; }
+      .step-num { width: 32px; height: 32px; font-size: 0.82rem; }
+    }
   </style>
 </head>
 <body>
 
   <nav>
-    <span class="logo">Digital Personal Assistant</span>
+    <span class="logo">hipponet</span>
     <span class="sep">/</span>
-    <span class="page">Setup Guide</span>
+    <span class="page">Start Here</span>
   </nav>
 
   <!-- HERO -->
   <section class="hero">
-    <div class="badge">Setup Guide</div>
-    <h1>Build Your<br /><span>Digital Personal Assistant</span></h1>
-    <p>A personal AI organization that knows you, your life, and your work — and gets smarter every time you use it.</p>
-    <div class="hero-cta">
-      <a href="mac.html" class="btn btn-mac">macOS Guide</a>
-      <a href="windows.html" class="btn btn-win">Windows Guide</a>
+    <div class="badge">Start Here</div>
+    <h1>Set Up Your<br /><span>AI Assistant</span></h1>
+    <p>A personal AI organization that knows you, your life, and your work — and gets smarter every time you use it. Five steps below and you're running.</p>
+    <a href="learn-more.html" class="btn">Learn More</a>
+    <div class="hero-meta">
+      <span>~30 minutes</span>
+      <span>No coding required</span>
+      <span>Runs on your computer</span>
     </div>
   </section>
 
   <hr class="divider" />
 
-  <!-- WHAT YOU'LL BUILD -->
-  <section class="section">
-    <div class="section-label">What You'll Build</div>
-    <h2>Not just a chatbot. An organization.</h2>
-    <p class="subtitle">This system is structured like a company. You're the owner. Your AI is the leadership team.</p>
+  <!-- THE GUIDE -->
+  <section class="steps-section">
+    <div class="section-label">The Setup</div>
+    <h2>Five steps. Claude does the rest.</h2>
+    <p class="subtitle">You don't need to know what any of this means going in. Claude will explain each piece as you go and fix anything that breaks.</p>
 
-    <div class="cards">
-      <div class="card">
-        <div class="card-icon">🧠</div>
-        <h3>A Lead Persona</h3>
-        <p>Your primary AI interface — named, with a defined personality, voice, and role. The single point of contact for everything.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">🏢</div>
-        <h3>A Team Structure</h3>
-        <p>Department heads and specialists for each area of your life: personal, professional, research, knowledge, creative, and more.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">📂</div>
-        <h3>A Living Knowledge Base</h3>
-        <p>Organized folders, context files, journals, and a database that preserves everything your AI learns about you over time.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">🔁</div>
-        <h3>Memory That Persists</h3>
-        <p>An auto-memory system that carries important context from conversation to conversation — so you never have to repeat yourself.</p>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Go to claude.ai and create an account</h3>
+        <p>Head to <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> and sign up. You'll need a <strong>paid plan — Pro or Max</strong>. The free tier won't work for this.</p>
+        <span class="step-note">Already have an account? Just sign in.</span>
       </div>
     </div>
 
-    <!-- CONCEPT DIAGRAM -->
-    <div class="diagram" style="margin-top: 2.5rem;">
-      <div class="org">
-        <div class="org-user">You</div>
-        <div class="org-line"></div>
-        <div class="org-ceo">[Your Lead Persona]</div>
-        <div class="org-spread">
-          <div class="org-node">Personal Director</div>
-          <div class="org-node">Professional Director</div>
-          <div class="org-node">Knowledge Officer</div>
-          <div class="org-node">Research Chief</div>
-          <div class="org-node">Tech Lead</div>
-          <div class="org-node">Creative Director</div>
-        </div>
-      </div>
-      <p class="diagram-caption">Your team structure. Every persona is an AI specialist you can talk to directly.</p>
-    </div>
-  </section>
-
-  <hr class="divider" />
-
-  <!-- HOW LONG -->
-  <section class="section">
-    <div class="section-label">Time Investment</div>
-    <h2>How long does this take?</h2>
-    <p class="subtitle" style="margin-bottom: 1.5rem;">The core system is up in under an hour. The rest grows with you.</p>
-    <div class="time-row">
-      <div class="time-card">
-        <div class="label">Starter System</div>
-        <div class="value">~30 min</div>
-        <div class="desc">Lead persona, 2–3 team members, basic folder structure, first conversation</div>
-      </div>
-      <div class="time-card">
-        <div class="label">Full Setup</div>
-        <div class="value">2–3 hrs</div>
-        <div class="desc">Full team, org chart, SQLite database, context files, memory system</div>
-      </div>
-      <div class="time-card">
-        <div class="label">Ongoing</div>
-        <div class="value">As you go</div>
-        <div class="desc">Add personas, file notes, write journal entries — the system deepens naturally</div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Start a new chat</h3>
+        <p>A fresh, empty conversation. Nothing else needs to be set up first.</p>
       </div>
     </div>
-  </section>
 
-  <hr class="divider" />
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Copy the setup prompt</h3>
+        <p>This is the whole thing. It turns Claude into your personal setup guide.</p>
+        <div class="prompt-box">
+          <div class="prompt-actions">
+            <button class="btn-copy" id="copyPromptBtn" onclick="copyGuidedPrompt()">Copy Setup Prompt</button>
+          </div>
+          <details>
+            <summary>Preview the prompt</summary>
+            <pre id="guidedPrompt">I want you to act as my personal setup guide. I'm setting up a "Digital Personal Assistant" — a personal AI organization that lives in a folder on my computer and runs through Claude Code in my terminal. Your job is to walk me through the entire setup, one step at a time, and troubleshoot anything that goes wrong until it's up and running.
 
-  <!-- OS PICK -->
-  <section class="os-section">
-    <h2>Choose your operating system to get started</h2>
-    <p>Both guides cover the same system. The only difference is installation commands.</p>
-    <div class="hero-cta">
-      <a href="mac.html" class="btn btn-mac">macOS Guide</a>
-      <a href="windows.html" class="btn btn-win">Windows Guide</a>
-    </div>
-  </section>
+HOW I GOT HERE:
+I went to start.hipponet.ai, which told me to create a Claude account, open a new chat, and paste this prompt. That's exactly what I just did. So you are step one of the actual setup — there is no other guide, no other page I'm supposed to be following, and no other tab I should have open. Everything from here happens between you and me in this chat. If I ask "what do I do next?", the answer is always the next step in the list below.
 
-  <!-- GUIDED SETUP PROMPT -->
-  <section class="guided">
-    <div class="guided-box">
-      <h3>Prefer a hand-held setup?</h3>
-      <p>Copy the prompt below, go to <strong>claude.ai</strong>, sign in (or create an account), start a new chat, and paste it in. Claude will walk you through the entire install one step at a time — and troubleshoot with you if anything goes wrong. Heads up: the assistant you're building lives in your computer's <strong>terminal</strong>, not on the web — the chat is just there to get you set up.</p>
-      <div class="guided-actions">
-        <button class="btn-copy" id="copyPromptBtn" onclick="copyGuidedPrompt()">Copy Setup Prompt</button>
-      </div>
-      <details>
-        <summary>Preview the prompt</summary>
-        <pre id="guidedPrompt">I want you to act as my personal setup guide. I'm setting up a "Digital Personal Assistant" — a personal AI organization that lives in a folder on my computer and runs through Claude Code in my terminal. Your job is to walk me through the entire setup, one step at a time, and troubleshoot anything that goes wrong until it's up and running.
+I may also ask you questions about what this system is, whether it's safe, what it costs, or why it works this way. Answer those directly and plainly, then get me back on track. Don't send me off to go read something else.
 
 IMPORTANT CONTEXT ABOUT WHAT I'M BUILDING:
 - The end product is NOT a web chatbot. It is a persistent AI system that lives in a folder on my computer, and I will use it through the TERMINAL every single day, via a tool called Claude Code. This chat on claude.ai is only for setup. Once setup is done, my daily interface is the terminal: open it, run a command, and talk to my assistant there. Make sure I clearly understand this — repeat it if needed, because a lot of people miss it.
 - The system I'm building: a lead AI persona (like a chief of staff) backed by a small team of AI specialists, folders for the different areas of my life, and memory that persists between conversations.
+- My files live on my own computer, in my own folder. Nothing gets uploaded anywhere. If I ask about privacy or security, tell me that plainly.
 - A pre-built starter kit handles the assistant's personality and team setup. Once Claude Code is running inside the folder, the assistant itself takes over with its own built-in onboarding. Your job ends when that onboarding begins.
 
 HOW TO GUIDE ME:
@@ -504,10 +373,11 @@ HOW TO GUIDE ME:
 2. Assume I am not technical. Before each command, explain in one plain sentence what it does.
 3. If something fails, ask me to paste the exact error text. Do not guess at fixes without seeing the error.
 4. Verify every step before moving on (for example, have me run a version check and tell you the output).
+5. If I go quiet or seem lost, tell me exactly what to type or click next. Be specific — name the button, the menu, the key.
 
 THE SETUP YOU ARE GUIDING ME THROUGH:
 1. Ask what kind of computer I'm using (Mac or Windows) and tailor every command to my OS.
-2. Confirm prerequisites: I need a Claude account with a paid plan (Pro or Max) — Claude Code requires it. If I don't have one, help me get set up at claude.ai first.
+2. Confirm I'm on a paid Claude plan (Pro or Max) — Claude Code requires it. If I'm not, walk me through upgrading before we continue.
 3. Teach me how to open my terminal (Terminal on Mac via Cmd+Space; PowerShell on Windows) and explain that this window is where my assistant will live from now on.
 4. Install Node.js — the LTS version from nodejs.org. Verify with: node -v
 5. Install Claude Code by running: npm install -g @anthropic-ai/claude-code — then verify with: claude --version
@@ -517,12 +387,40 @@ THE SETUP YOU ARE GUIDING ME THROUGH:
 9. Once Claude Code starts inside that folder, the built-in onboarding takes over automatically — it will introduce itself and start asking me questions. At that moment, tell me clearly: "From here on, this terminal is where your assistant lives. Daily use means opening the terminal and running claude in this folder — the onboarding will help you set up a one-word shortcut." Then your job is done.
 
 If I get stuck at any point, stay with me on that step until it's resolved. Start now by asking me what kind of computer I'm using.</pre>
-      </details>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Paste it into the chat and send</h3>
+        <p>Claude will read it, then start by asking whether you're on a Mac or Windows.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>Follow along — and ask Claude anything</h3>
+        <p>It goes one step at a time and waits for you at each one. If something errors out, paste the error in and it'll fix it. If you're confused about what you're building or why, just ask — it knows the whole picture.</p>
+        <span class="step-note">Your assistant will live in your terminal, not this chat. The chat is only for setup.</span>
+      </div>
     </div>
   </section>
 
+  <hr class="divider" />
+
+  <!-- CLOSER -->
+  <section class="closer">
+    <h2>Want the background first?</h2>
+    <p>What the system actually is, how it runs, where your data lives, and what it costs.</p>
+    <a href="learn-more.html" class="btn btn-primary">Learn More</a>
+  </section>
+
   <footer>
-    Built by Chandler Catron &mdash; AI Mastermind 2026
+    Built by Chandler Catron &mdash; hipponet
   </footer>
 
   <script>

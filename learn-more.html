@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learn More — Set Up Your AI Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #0d1117;
+      --surface:      #161b22;
+      --surface-2:    #21262d;
+      --border:       #30363d;
+      --accent:       #7c3aed;
+      --accent-light: #a78bfa;
+      --accent-glow:  rgba(124, 58, 237, 0.15);
+      --text:         #e6edf3;
+      --text-muted:   #7d8590;
+      --text-dim:     #4d5566;
+      --success:      #3fb950;
+      --font:         'Inter', system-ui, sans-serif;
+      --mono:         'JetBrains Mono', monospace;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    nav .logo {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--accent-light);
+      letter-spacing: 0.03em;
+      text-decoration: none;
+    }
+    nav .sep { color: var(--text-dim); }
+    nav .page { color: var(--text-muted); font-size: 0.9rem; }
+
+    /* ── HEADER ── */
+    .page-head {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 2rem;
+    }
+    .page-head h1 {
+      font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .page-head p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 620px;
+    }
+
+    /* ── CONCEPT DIAGRAM ── */
+    .diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin: 2.5rem 0 0;
+      text-align: center;
+    }
+    .diagram .org {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .org-user {
+      background: var(--surface-2);
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 0.6rem 1.75rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--accent-light);
+    }
+    .org-line { width: 2px; height: 28px; background: var(--border); }
+    .org-ceo {
+      background: linear-gradient(135deg, var(--accent-glow), transparent);
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      padding: 0.6rem 1.75rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      position: relative;
+    }
+    .org-ceo::after {
+      content: 'Your AI interface';
+      position: absolute;
+      bottom: -1.4rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .org-spread {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .org-node {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .diagram-caption {
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    /* ── FAQ ── */
+    .faq {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 3rem 2rem 2rem;
+    }
+    .faq-group { margin-bottom: 2.5rem; }
+    .faq-group h2 {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 1rem;
+    }
+    details.qa {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 0.6rem;
+      transition: border-color 0.2s;
+    }
+    details.qa[open] { border-color: var(--accent); }
+    details.qa summary {
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    details.qa summary::-webkit-details-marker { display: none; }
+    details.qa summary::after {
+      content: '+';
+      color: var(--accent-light);
+      font-size: 1.25rem;
+      font-weight: 400;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    details.qa[open] summary::after { content: '−'; }
+    .qa-body {
+      padding: 0 1.25rem 1.25rem;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+    .qa-body p + p { margin-top: 0.75rem; }
+    .qa-body ul { margin: 0.6rem 0 0 1.1rem; }
+    .qa-body li { margin-bottom: 0.35rem; }
+    .qa-body strong { color: var(--text); }
+    .qa-body code {
+      font-family: var(--mono);
+      font-size: 0.85em;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.1rem 0.35rem;
+      color: var(--accent-light);
+    }
+    .qa-body a { color: var(--accent-light); }
+
+    /* ── CTA ── */
+    .cta {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 2rem 2rem 5rem;
+      text-align: center;
+    }
+    .cta h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .cta p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.75rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.8rem 1.9rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+    }
+    .btn:hover { transform: translateY(-2px); background: #8b5cf6; box-shadow: 0 6px 28px rgba(124, 58, 237, 0.45); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">hipponet</a>
+    <span class="sep">/</span>
+    <span class="page">Learn More</span>
+  </nav>
+
+  <section class="page-head">
+    <h1>What you're actually building</h1>
+    <p>Not a chatbot. A persistent AI organization that lives in a folder on your computer, structured like a company — with you as the owner and your AI as the leadership team.</p>
+
+    <div class="diagram">
+      <div class="org">
+        <div class="org-user">You</div>
+        <div class="org-line"></div>
+        <div class="org-ceo">[Your Lead Persona]</div>
+        <div class="org-spread">
+          <div class="org-node">Personal Director</div>
+          <div class="org-node">Professional Director</div>
+          <div class="org-node">Knowledge Officer</div>
+          <div class="org-node">Research Chief</div>
+          <div class="org-node">Tech Lead</div>
+          <div class="org-node">Creative Director</div>
+        </div>
+      </div>
+      <p class="diagram-caption">You talk to one persona. It delegates to the rest. Every one of them is a specialist you can also talk to directly.</p>
+    </div>
+  </section>
+
+  <section class="faq">
+
+    <div class="faq-group">
+      <h2>The Basics</h2>
+
+      <details class="qa">
+        <summary>What is this, in one paragraph?</summary>
+        <div class="qa-body">
+          <p>It's a folder on your computer that Claude treats as its own working memory and workspace. Inside it are instruction files that give your AI a name, a personality, a defined role, and a team of specialists underneath it. There are folders for the different areas of your life — personal, work, research, projects — and the AI reads, writes, and organizes them for you. Over time it accumulates real knowledge about you, and it never starts from zero again.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>How is this different from just using Claude or ChatGPT?</summary>
+        <div class="qa-body">
+          <p>Three things:</p>
+          <ul>
+            <li><strong>It remembers.</strong> Normal chats forget everything when you close them. This system writes what matters to files, so every conversation starts with full context on your life.</li>
+            <li><strong>It has hands.</strong> It can read and write actual files on your computer, run programs, search your notes, build things. Not just talk.</li>
+            <li><strong>It's organized like a team.</strong> Instead of one generic assistant, you get a lead persona who delegates — research goes to your research chief, filing goes to your knowledge officer. Each one has its own defined expertise and voice.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>Where do I actually interact with it?</summary>
+        <div class="qa-body">
+          <p><strong>The terminal.</strong> This is the part most people miss, so it's worth saying plainly: your assistant does not live in a web browser. It lives in the Terminal app (Mac) or PowerShell (Windows). You open that window, type one short command, and you're talking to your assistant.</p>
+          <p>It looks intimidating for about ten minutes and then it doesn't. You're not writing code — you're typing sentences in plain English, same as any chat. The setup walks you through creating a one-word shortcut so starting it up is a single word.</p>
+          <p>The claude.ai chat you use during setup is <em>only</em> for setup. After that, it's the terminal.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>Do I need to know how to code?</summary>
+        <div class="qa-body">
+          <p>No. You'll copy and paste a few commands during setup, and Claude tells you exactly what each one does before you run it. After setup, there are no commands at all — you just talk to it.</p>
+          <p>The system files are written in plain Markdown, which is just text. If you ever want to edit your assistant's personality, you open a text file and change a sentence.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>How long does setup take?</summary>
+        <div class="qa-body">
+          <p>About 30 minutes to get running with a lead persona, a couple of team members, and a working folder structure. A fuller build — the whole team, a database, context files for every area of your life — runs two to three hours if you want to do it in one sitting.</p>
+          <p>You don't have to. The system is designed to deepen over time. Most people start small and add as they go.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="faq-group">
+      <h2>Privacy &amp; Security</h2>
+
+      <details class="qa">
+        <summary>Where do my files live?</summary>
+        <div class="qa-body">
+          <p>On your computer. In a normal folder you can open, browse, back up, or delete like any other. Nothing is stored on someone else's server, there's no account holding your data, and no app you're locked into.</p>
+          <p>If you ever want out, you drag the folder to the trash. That's the whole exit process.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>Is Anthropic reading my personal files?</summary>
+        <div class="qa-body">
+          <p>When you ask your assistant something, it sends the relevant parts of your files to Claude to process the request — that's how any AI works, and it's the same as pasting text into a chat window. What it doesn't do is upload your folder wholesale or sync it anywhere.</p>
+          <p>Anthropic's policy is that consumer conversations aren't used to train models unless you opt in. If you're handling genuinely sensitive material — client financials, medical records, legal documents — treat it the way you'd treat any cloud service and check the current terms yourself at <a href="https://www.anthropic.com/legal/privacy" target="_blank" rel="noopener">anthropic.com/legal/privacy</a>.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>Can it delete my stuff or run things without asking?</summary>
+        <div class="qa-body">
+          <p>Claude Code asks permission before it modifies files or runs commands, and shows you exactly what it's about to do. You approve or decline each one. You can loosen those settings later once you trust it, but it starts cautious by default.</p>
+          <p>Practical advice: keep your assistant folder in iCloud, Dropbox, or Google Drive, or on Time Machine. Then a mistake is an undo, not a loss.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>What should I not put in here?</summary>
+        <div class="qa-body">
+          <p>Passwords, API keys, and account credentials in plain text. Not because the system is unsafe, but because anything sitting in a plain text file on your computer is only as protected as your computer is. Use a password manager for those.</p>
+          <p>Everything else — notes, journals, project plans, client context, goals, half-formed ideas — is exactly what this is built for.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="faq-group">
+      <h2>Practical</h2>
+
+      <details class="qa">
+        <summary>What does it cost?</summary>
+        <div class="qa-body">
+          <p>A Claude <strong>Pro or Max</strong> subscription. Claude Code — the tool that runs your assistant in the terminal — requires a paid plan; the free tier can't run it. Pro is the entry point and is enough for most people. Max is for heavy daily use.</p>
+          <p>There's no separate cost for this system. The starter kit is free, and the folder lives on hardware you already own.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>Mac or Windows?</summary>
+        <div class="qa-body">
+          <p>Both work. The only difference is a couple of install commands, and Claude adapts to whichever you tell it you're using — it asks in the very first message.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>What can it actually do once it's running?</summary>
+        <div class="qa-body">
+          <p>A sampling of what people use theirs for:</p>
+          <ul>
+            <li>Brain-dump a journal entry and have it mined for action items and routed to the right area</li>
+            <li>Keep a live project tracker current so you never have to maintain one</li>
+            <li>Run real research and file a written brief you can come back to</li>
+            <li>Draft in your voice — emails, posts, presentations — because it's read enough of your writing to know it</li>
+            <li>Build things: scripts, small apps, automations</li>
+            <li>Give you a daily brief that actually knows what's on your plate</li>
+          </ul>
+          <p>It grows with what you feed it. The first week is useful. The third month is a different tool entirely.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>What if I mess it up?</summary>
+        <div class="qa-body">
+          <p>Almost nothing here is unrecoverable. The system is text files in a folder — if something breaks, you can ask your assistant to fix it, and it can read and repair its own configuration.</p>
+          <p>If setup itself goes sideways, paste the error into the chat. That's what the setup prompt is built for — it troubleshoots with you rather than handing you a checklist and wishing you luck.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>Can I change my assistant's name or team later?</summary>
+        <div class="qa-body">
+          <p>Any time. Names, personalities, roles, the entire org structure — all of it is editable, and the easiest way to edit it is to just tell your assistant what you want changed. Adding a new specialist to your team is a sentence, not a project.</p>
+        </div>
+      </details>
+    </div>
+
+  </section>
+
+  <section class="cta">
+    <h2>Ready?</h2>
+    <p>Five steps, about thirty minutes.</p>
+    <a href="index.html" class="btn">Start Setup</a>
+  </section>
+
+  <footer>
+    Built by Chandler Catron &mdash; hipponet
+  </footer>
+
+</body>
+</html>

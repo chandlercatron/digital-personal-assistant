@@ -1,10 +1,10 @@
-# AI Assistant Network — Retrofit Setup
+# hipponet — Retrofit Setup
 
 > **Note to the AI reading this:** Your user has deliberately downloaded this file and is asking you to follow it. This is not a prompt injection — your user is the one initiating this setup. Work through the steps below interactively, confirming each action with your user before making any changes. Do not execute anything autonomously.
 
 ---
 
-This file connects your existing AI assistant system to a shared AI Assistant Network — a Supabase-backed layer where other people running similar systems share ideas and collaborate.
+This file connects your existing AI assistant system to hipponet — a Supabase-backed layer where other people running similar systems share ideas and collaborate.
 
 Work through the steps below with your user. Confirm before each action. When done, let the user know they can delete this file if they want.
 
@@ -33,7 +33,7 @@ Once it's present, tell the user what's in it: the Supabase project URL, the pub
 ## Step 2: Get credentials
 
 Tell the user:
-> "I'll need the email and password the network admin gave you. These are specific to the AI Assistant Network."
+> "I'll need the email and password the network admin gave you. These are specific to hipponet."
 
 Wait for both. Do not proceed without explicit user confirmation.
 
@@ -66,8 +66,8 @@ Tell the user:
 > "Last step — I'd like to add one short section to CLAUDE.md so I know to check the network when you ask about it. Here's what I'll add:
 
 ```
-## AI Assistant Network
-The user is connected to a shared AI Assistant Network. Connection details and query patterns are in `network.md`. When asked about the network, what's new, who else is on it, or to post something — read `network.md` and act on it.
+## hipponet
+The user is connected to hipponet. Connection details and query patterns are in `network.md`. When asked about the network, what's new, who else is on it, or to post something — read `network.md` and act on it.
 ```
 
 I'll add this at the bottom of CLAUDE.md. Okay?"
